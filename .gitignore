@@ -67,3 +67,4 @@ examples/example-subgraph/node_modules
 
 # validation tests output
 tests/cli/validation/*/generated
+/.idea/
