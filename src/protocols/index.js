@@ -4,12 +4,16 @@ const EthereumTemplateCodeGen = require('./ethereum/codegen/template')
 const EthereumABI = require('./ethereum/abi')
 const EthereumSubgraph = require('./ethereum/subgraph')
 const NearSubgraph = require('./near/subgraph')
+const SolanaSubgraph = require('./near/subgraph')
 const EthereumContract = require('./ethereum/contract')
 const NearContract = require('./near/contract')
+const SolanaContract = require('./near/contract')
 const EthereumManifestScaffold = require('./ethereum/scaffold/manifest')
 const NearManifestScaffold = require('./near/scaffold/manifest')
+const SolanaManifestScaffold = require('./solana/scaffold/manifest')
 const EthereumMappingScaffold = require('./ethereum/scaffold/mapping')
 const NearMappingScaffold = require('./near/scaffold/mapping')
+const SolanaMappingScaffold = require('./solana/scaffold/mapping')
 
 module.exports = class Protocol {
   static fromDataSources(dataSourcesAndTemplates) {
@@ -27,6 +31,7 @@ module.exports = class Protocol {
       // New networks (or protocol perhaps) shouldn't have the `/contract` anymore (unless a new case makes use of it).
       ethereum: ['ethereum', 'ethereum/contract'],
       near: ['near'],
+      solana: ['solana'],
     })
   }
 
@@ -64,6 +69,9 @@ module.exports = class Protocol {
         'near-mainnet',
         'near-testnet'
       ],
+      solana: [
+        'solana-mainnet',
+      ],
     })
   }
 
@@ -79,6 +87,8 @@ module.exports = class Protocol {
         return 'Ethereum'
       case 'near':
         return 'NEAR'
+      case 'solana':
+        return 'SOLANA'
     }
   }
 
@@ -96,6 +106,8 @@ module.exports = class Protocol {
         return true
       case 'near':
         return false
+      case 'solana':
+        return false
     }
   }
 
@@ -105,6 +117,8 @@ module.exports = class Protocol {
         return true
       case 'near':
         return false
+      case 'solana':
+        return false
     }
   }
 
@@ -113,6 +127,8 @@ module.exports = class Protocol {
       case 'ethereum':
         return new EthereumTypeGenerator(options)
       case 'near':
+        return null
+      case 'solana':
         return null
     }
   }
@@ -134,6 +150,8 @@ module.exports = class Protocol {
         return EthereumABI
       case 'near':
         return null
+      case 'solana':
+        return null
     }
   }
 
@@ -145,6 +163,8 @@ module.exports = class Protocol {
         return new EthereumSubgraph(optionsWithProtocol)
       case 'near':
         return new NearSubgraph(optionsWithProtocol)
+      case 'solana':
+        return new SolanaSubgraph(optionsWithProtocol)
       default:
         throw new Error(`Data sources with kind '${this.name}' are not supported yet`)
     }
@@ -156,6 +176,8 @@ module.exports = class Protocol {
         return EthereumContract
       case 'near':
         return NearContract
+      case 'solana':
+        return SolanaContract
     }
   }
 
@@ -165,6 +187,8 @@ module.exports = class Protocol {
         return EthereumManifestScaffold
       case 'near':
         return NearManifestScaffold
+      case 'solana':
+        return SolanaManifestScaffold
     }
   }
 
@@ -174,6 +198,8 @@ module.exports = class Protocol {
         return EthereumMappingScaffold
       case 'near':
         return NearMappingScaffold
+      case 'solana':
+        return SolanaMappingScaffold
     }
   }
 }
