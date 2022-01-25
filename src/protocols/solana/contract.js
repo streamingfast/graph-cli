@@ -1,35 +1,37 @@
 const MINIMUM_ACCOUNT_ID_LENGTH = 2
 const MAXIMUM_ACCOUNT_ID_LENGTH = 64
 
-const RULES_URL = 'https://docs.near.org/docs/concepts/account#account-id-rules'
+const RULES_URL = 'tbd'
 
 module.exports = class SolanaContract {
   static identifierName() {
-    return 'account'
+    return 'programId'
   }
 
-  constructor(account) {
-    this.account = account
+  constructor(programId) {
+    this.programId = programId
   }
 
   _validateLength() {
-    return this.account.length >= MINIMUM_ACCOUNT_ID_LENGTH &&
-      this.account.length <= MAXIMUM_ACCOUNT_ID_LENGTH
+    return this.programId.length >= MINIMUM_ACCOUNT_ID_LENGTH &&
+      this.programId.length <= MAXIMUM_ACCOUNT_ID_LENGTH
   }
 
   _validateFormat() {
-    const pattern = /^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$/
+    const pattern = /^.*$/
+    //todo: ^^^^^^^
 
-    return pattern.test(this.account)
+    return pattern.test(this.programId)
   }
 
   validate() {
-    if (!this._validateLength(this.account)) {
+    if (!this._validateLength(this.programId)) {
       return {
         valid: false,
-        error: `Account must be between '${MINIMUM_ACCOUNT_ID_LENGTH}' and '${MAXIMUM_ACCOUNT_ID_LENGTH}' characters, see ${RULES_URL}`,
+        error: `programId must be between '${MINIMUM_ACCOUNT_ID_LENGTH}' and '${MAXIMUM_ACCOUNT_ID_LENGTH}' characters, see ${RULES_URL}`,
       }
     }
+    //todo: fix this ^^^^^
 
     if (!this._validateFormat()) {
       return {

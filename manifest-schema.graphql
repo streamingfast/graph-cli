@@ -8,7 +8,8 @@ type Schema {
 
 union DataSource =
   EthereumContractDataSource |
-  NearContractDataSource
+  NearContractDataSource |
+  SolanaContractDataSource
 
 union DataSourceTemplate = EthereumContractDataSourceTemplate
 
@@ -27,6 +28,7 @@ type NearContractDataSource {
   source: NearContractSource!
   mapping: NearContractMapping!
 }
+
 
 type EthereumContractSource {
   address: String
@@ -52,6 +54,7 @@ type EthereumContractMapping {
 }
 
 type NearContractMapping {
+  kind: String
   apiVersion: String!
   language: String!
   file: File!
@@ -119,4 +122,35 @@ type EthereumContractDataSourceTemplate {
 
 type EthereumContractSourceTemplate {
   abi: String!
+}
+
+type SolanaContractDataSource {
+  kind: String!
+  name: String!
+  network: String
+  source: SolanaContractSource!
+  mapping: SolanaContractMapping!
+}
+
+type SolanaContractSource {
+  programId: String
+  startBlock: BigInt
+}
+
+type SolanaContractMapping {
+  kind: String
+  apiVersion: String!
+  language: String!
+  file: File!
+  entities: [String!]!
+  blockHandlers: [SolanaBlockHandler!]
+  instructionHandlers: [SolanaInstructionHandler!]
+}
+
+type SolanaBlockHandler {
+  handler: String!
+}
+
+type SolanaInstructionHandler {
+  handler: String!
 }
